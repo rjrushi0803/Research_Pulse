@@ -1,4 +1,3 @@
-
 """Application service for retrieving and deduplicating papers."""
 
 import logging
@@ -20,8 +19,7 @@ class PaperFetcher(Protocol):
         start_date: str | None = None,
         end_date: str | None = None,
         max_results: int = 10,
-    ) -> list[Paper]:
-        ...
+    ) -> list[Paper]: ...
 
 
 class PaperIngestionService:

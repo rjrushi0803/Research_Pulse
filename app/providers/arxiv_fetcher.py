@@ -1,4 +1,3 @@
-
 """Fetch research-paper metadata from the arXiv API."""
 
 import logging
@@ -15,8 +14,7 @@ logger = logging.getLogger(__name__)
 class ArxivClientProtocol(Protocol):
     """Minimal interface required from the arXiv client."""
 
-    def results(self, search: arxiv.Search):
-        ...
+    def results(self, search: arxiv.Search): ...
 
 
 class ArxivFetchError(RuntimeError):
@@ -49,8 +47,7 @@ class ArxivFetcher:
         """Reject invalid requests before making any network calls."""
 
         if not keywords or not all(
-            isinstance(keyword, str) and keyword.strip()
-            for keyword in keywords
+            isinstance(keyword, str) and keyword.strip() for keyword in keywords
         ):
             raise ValueError("keywords must contain non-empty strings.")
 
@@ -60,9 +57,7 @@ class ArxivFetcher:
         if max_results < 1:
             raise ValueError("max_results must be at least 1.")
 
-        parsed_start = (
-            date.fromisoformat(start_date) if start_date else None
-        )
+        parsed_start = date.fromisoformat(start_date) if start_date else None
         parsed_end = date.fromisoformat(end_date) if end_date else None
 
         # Ensure callers do not accidentally request an inverted range.
@@ -81,7 +76,7 @@ class ArxivFetcher:
         keyword_queries = []
 
         for keyword in keywords:
-            escaped = keyword.strip().replace('"', r'\"')
+            escaped = keyword.strip().replace('"', r"\"")
             keyword_queries.append(f'all:"{escaped}"')
 
         # Match any supplied keyword phrase.
@@ -89,21 +84,10 @@ class ArxivFetcher:
 
         if start_date or end_date:
             # The arXiv API expects timestamps in YYYYMMDDHHMM form.
-            start = (
-                start_date.replace("-", "") + "0000"
-                if start_date
-                else "000000000000"
-            )
-            end = (
-                end_date.replace("-", "") + "2359"
-                if end_date
-                else "999912312359"
-            )
+            start = start_date.replace("-", "") + "0000" if start_date else "000000000000"
+            end = end_date.replace("-", "") + "2359" if end_date else "999912312359"
 
-            query = (
-                f"({query}) AND "
-                f"submittedDate:[{start} TO {end}]"
-            )
+            query = f"({query}) AND submittedDate:[{start} TO {end}]"
 
         return query
 
@@ -126,9 +110,7 @@ class ArxivFetcher:
                 doi=result.doi or "",
             )
         except (AttributeError, TypeError, ValueError) as exc:
-            raise ArxivFetchError(
-                "Could not normalize an arXiv result."
-            ) from exc
+            raise ArxivFetchError("Could not normalize an arXiv result.") from exc
 
     def fetch(
         self,
@@ -153,9 +135,7 @@ class ArxivFetcher:
             ArxivFetchError: If the API request or parsing fails.
         """
 
-        self._validate_inputs(
-            keywords, start_date, end_date, max_results
-        )
+        self._validate_inputs(keywords, start_date, end_date, max_results)
 
         query = self._build_query(keywords, start_date, end_date)
 
@@ -179,16 +159,10 @@ class ArxivFetcher:
         except ArxivFetchError:
             raise
         except Exception as exc:
-            logger.exception(
-                "arXiv request failed; keywords=%s", keywords
-            )
-            raise ArxivFetchError(
-                "Unable to retrieve papers from arXiv."
-            ) from exc
+            logger.exception("arXiv request failed; keywords=%s", keywords)
+            raise ArxivFetchError("Unable to retrieve papers from arXiv.") from exc
 
-        logger.info(
-            "Retrieved %d papers from arXiv.", len(papers)
-        )
+        logger.info("Retrieved %d papers from arXiv.", len(papers))
 
         return papers
 

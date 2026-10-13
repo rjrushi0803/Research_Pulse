@@ -1,4 +1,3 @@
-
 """Tests for arXiv retrieval and metadata normalization."""
 
 from datetime import UTC, datetime
@@ -47,9 +46,7 @@ def test_fetch_maps_api_result_to_paper():
 
 def test_fetch_respects_result_limit():
     client = Mock()
-    client.results.return_value = iter(
-        [make_result(), make_result(), make_result()]
-    )
+    client.results.return_value = iter([make_result(), make_result(), make_result()])
     fetcher = ArxivFetcher(client=client)
 
     papers = fetcher.fetch(

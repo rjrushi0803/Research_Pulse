@@ -1,4 +1,3 @@
-
 """Tests for the paper ingestion service."""
 
 from unittest.mock import Mock

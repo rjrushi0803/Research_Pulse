@@ -49,10 +49,7 @@ class Paper:
         if not isinstance(self.authors, list):
             raise TypeError("authors must be a list of strings.")
 
-        if not all(
-            isinstance(author, str) and author.strip()
-            for author in self.authors
-        ):
+        if not all(isinstance(author, str) and author.strip() for author in self.authors):
             raise ValueError("Every author must be a non-empty string.")
 
         # Store a normalized author list.
@@ -62,14 +59,10 @@ class Paper:
         try:
             parsed_date = date.fromisoformat(self.published_date)
         except (TypeError, ValueError) as exc:
-            raise ValueError(
-                "published_date must be a valid ISO date (YYYY-MM-DD)."
-            ) from exc
+            raise ValueError("published_date must be a valid ISO date (YYYY-MM-DD).") from exc
 
         if parsed_date.isoformat() != self.published_date:
-            raise ValueError(
-                "published_date must use the YYYY-MM-DD format."
-            )
+            raise ValueError("published_date must use the YYYY-MM-DD format.")
 
         # All optional metadata fields must be strings.
         optional_fields = (

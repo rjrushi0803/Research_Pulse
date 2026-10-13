@@ -1,4 +1,3 @@
-
 """Tests for the canonical Paper model."""
 
 import pytest
