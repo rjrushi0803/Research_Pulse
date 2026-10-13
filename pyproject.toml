@@ -13,6 +13,7 @@ dependencies = [
     "uvicorn[standard]>=0.30,<1.0",
     "pydantic-settings>=2.6,<3.0",
     "httpx2>=2.13.1",
+    "arxiv>=4.0.1",
 ]
 
 [project.optional-dependencies]
@@ -37,3 +38,9 @@ target-version = "py313"
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B"]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.4.2",
+    "ruff>=0.17.0",
+]
