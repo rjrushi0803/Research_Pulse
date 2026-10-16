@@ -14,8 +14,8 @@ build/
 .env
 .env.*
 !.env.example
-.md 
-.pdf
+*.md 
+*.pdf
 
 # Editors / OS
 .vscode/
