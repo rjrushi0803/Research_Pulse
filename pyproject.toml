@@ -14,6 +14,10 @@ dependencies = [
     "pydantic-settings>=2.6,<3.0",
     "httpx2>=2.13.1",
     "arxiv>=4.0.1",
+    "ipykernel>=7.4.0",
+    "httpx>=0.28.1",
+    "pymupdf>=1.28.2",
+    "docling>=2.139.0",
 ]
 
 [project.optional-dependencies]

@@ -176,10 +176,11 @@ if __name__ == "__main__":
 
     papers = fetcher.fetch(
         keywords=["AI in Drug Discovery"],
-        start_date="2026-10-01",
+        start_date="2026-01-01",
         end_date="2026-10-12",
-        max_results=5,
+        max_results=10,
     )
 
     for paper in papers:
         print(paper.to_dict())
+        print("==============All IMP Keywords==============\n", paper.to_dict().keys())
