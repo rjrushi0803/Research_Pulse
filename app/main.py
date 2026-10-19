@@ -1,21 +1,28 @@
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
 
-from app.api.routes.health import router as health_router
-from app.core.config import get_settings
+from app.api.routes.onboarding import router
+from app.psql_db import Base, engine
 
 
-def create_app() -> FastAPI:
-    """Build and configure the FastAPI application."""
-    settings = get_settings()
+def create_app(initialize_db: bool = True) -> FastAPI:
+    @asynccontextmanager
+    async def lifespan(app: FastAPI):
+        if initialize_db:
+            # Import models so SQLAlchemy registers their tables.
+            from app.models.user import User  # noqa: F401
 
-    application = FastAPI(
-        title=settings.app_name,
-        version="0.1.0",
-        description="Research paper discovery and RAG API.",
+            Base.metadata.create_all(bind=engine)
+        yield
+
+    app = FastAPI(
+        title="Research Pulse",
+        lifespan=lifespan,
     )
+    app.include_router(router)
 
-    application.include_router(health_router)
-    return application
+    return app
 
 
 app = create_app()

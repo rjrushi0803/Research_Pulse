@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Research Pulse — Setup</title>
+    <style>
+        body {
+            font-family: system-ui, sans-serif;
+            max-width: 620px;
+            margin: 50px auto;
+            padding: 0 20px;
+            color: #222;
+            background: #fafafa;
+        }
+
+        main {
+            background: white;
+            padding: 28px;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin: 18px 0 6px;
+        }
+
+        input,
+        textarea {
+            box-sizing: border-box;
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #d1d5db;
+            border-radius: 7px;
+            font: inherit;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        button {
+            margin-top: 22px;
+            padding: 12px 18px;
+            width: 100%;
+            border: 0;
+            border-radius: 7px;
+            background: #243b53;
+            color: white;
+            font: inherit;
+            cursor: pointer;
+        }
+
+        .message {
+            padding: 12px;
+            border-radius: 7px;
+        }
+
+        .error {
+            background: #fef2f2;
+            color: #991b1b;
+        }
+
+        .success {
+            background: #ecfdf5;
+            color: #065f46;
+        }
+
+        .hint {
+            color: #666;
+            font-size: 13px;
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+        <h1>Research Pulse</h1>
+        <p>Set up your profile to discover research papers relevant to you.</p>
+
+        {% if error %}
+        <p class="message error">{{ error }}</p>
+        {% endif %}
+
+        {% if success %}
+        <p class="message success">{{ success }}</p>
+        {% endif %}
+
+        <form action="/setup" method="post">
+            <label for="email">Email address</label>
+            <input id="email" name="email" type="email" value="{{ email | default('') }}" required maxlength="320"
+                placeholder="you@example.com">
+
+            <label for="keywords">Research keywords</label>
+            <textarea id="keywords" name="keywords" rows="3"
+                placeholder="AI in drug discovery, RAG, biomedical NLP">{{ keywords | default('') }}</textarea>
+            <p class="hint">Separate keywords with commas or new lines.</p>
+
+            <label for="description">Research interests</label>
+            <textarea id="description" name="description" rows="5"
+                placeholder="Describe the research you want to follow...">{{ description | default('') }}</textarea>
+
+            <button type="submit">Create profile</button>
+        </form>
+    </main>
+</body>
+
+</html>
