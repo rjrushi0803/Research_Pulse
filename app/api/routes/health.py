@@ -2,17 +2,13 @@
 
 from fastapi import APIRouter
 
-from app.core.config import get_settings
-
-router = APIRouter(tags=["health"])
+router = APIRouter()
 
 
-@router.get("/health", summary="Check whether the API process is responsive")
-def health_check() -> dict[str, str]:
-    """Return a minimal status payload without disclosing secrets or infrastructure."""
-    settings = get_settings()
+@router.get("/health")
+def health():
     return {
         "status": "ok",
-        "app_name": settings.app_name,
-        "environment": settings.app_env,
+        "app_name": "Research_Pulse",
+        "environment": "development",
     }

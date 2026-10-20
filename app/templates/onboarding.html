@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Research Pulse — Setup</title>
+
     <style>
         body {
             font-family: system-ui, sans-serif;
@@ -38,11 +39,19 @@
             font: inherit;
         }
 
+        input[readonly] {
+            background: #f3f4f6;
+            color: #555;
+        }
+
         textarea {
             resize: vertical;
         }
 
-        button {
+        button,
+        .google-button {
+            display: block;
+            box-sizing: border-box;
             margin-top: 22px;
             padding: 12px 18px;
             width: 100%;
@@ -51,6 +60,8 @@
             background: #243b53;
             color: white;
             font: inherit;
+            text-align: center;
+            text-decoration: none;
             cursor: pointer;
         }
 
@@ -73,6 +84,13 @@
             color: #666;
             font-size: 13px;
         }
+
+        .account {
+            padding: 12px;
+            background: #f3f4f6;
+            border-radius: 7px;
+            overflow-wrap: anywhere;
+        }
     </style>
 </head>
 
@@ -89,11 +107,13 @@
         <p class="message success">{{ success }}</p>
         {% endif %}
 
-        <form action="/setup" method="post">
-            <label for="email">Email address</label>
-            <input id="email" name="email" type="email" value="{{ email | default('') }}" required maxlength="320"
-                placeholder="you@example.com">
+        {% if email %}
 
+        <p class="account">
+            Signed in with Google as <strong>{{ email }}</strong>
+        </p>
+
+        <form action="/setup" method="post">
             <label for="keywords">Research keywords</label>
             <textarea id="keywords" name="keywords" rows="3"
                 placeholder="AI in drug discovery, RAG, biomedical NLP">{{ keywords | default('') }}</textarea>
@@ -105,6 +125,20 @@
 
             <button type="submit">Create profile</button>
         </form>
+
+        {% else %}
+
+        <p>Sign in with your Google account to create your research profile.</p>
+
+        <a class="google-button" href="/login/google">
+            Sign in with Google
+        </a>
+
+        <p class="hint">
+            Your Google-verified email will be used for your profile.
+        </p>
+
+        {% endif %}
     </main>
 </body>
 
